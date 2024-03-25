@@ -31,7 +31,10 @@ export default function AddTrainer() {
   return (
     <div className="container mt-5 ">
       <div className="row ">
-        <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow mt-5 ">
+        <div
+          className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow mt-5 "
+          style={{ backgroundColor: "" }}
+        >
           <h2 className="text-center m-4 mb-5">Register Trainer</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>

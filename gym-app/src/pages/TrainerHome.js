@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function TrainerHome() {
   const [users, setUsers] = useState([]);
@@ -30,9 +31,16 @@ export default function TrainerHome() {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-7 ">
+      <h2 className="text-center" style={{ marginTop: "5rem" }}>
+        Manage Trainers
+      </h2>
+      <Link to="/addTrainer" className="btn btn-success">
+        + Add Trainer
+      </Link>
+
       <div className="py-4">
-        <table className="table border shadow mt-5">
+        <table className="table border shadow mt-1">
           <thead>
             <tr>
               <th scope="col">ID</th>
