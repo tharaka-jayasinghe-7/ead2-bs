@@ -29,13 +29,13 @@ export default function AddTrainer() {
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow mt-5">
-          <h2 className="text-center m-4">Register Trainer</h2>
+    <div className="container mt-5 ">
+      <div className="row ">
+        <div className="col-md-6 offset-md-3 border rounder p-4 mt-2 shadow mt-5 ">
+          <h2 className="text-center m-4 mb-5">Register Trainer</h2>
 
           <form onSubmit={(e) => onSubmit(e)}>
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="first_name" className="form-label">
                 First Name
               </label>
@@ -49,7 +49,7 @@ export default function AddTrainer() {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="last_name" className="form-label">
                 Last Name
               </label>
@@ -63,7 +63,7 @@ export default function AddTrainer() {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="gender" className="form-label">
                 Gender
               </label>
@@ -101,7 +101,7 @@ export default function AddTrainer() {
               </div>
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="address" className="form-label">
                 Address
               </label>
@@ -115,7 +115,7 @@ export default function AddTrainer() {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="mobile" className="form-label">
                 Mobile
               </label>
@@ -129,7 +129,7 @@ export default function AddTrainer() {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="email" className="form-label">
                 Email
               </label>
@@ -143,7 +143,7 @@ export default function AddTrainer() {
               />
             </div>
 
-            <div className="mb-3">
+            <div className="mb-4">
               <label htmlFor="joined_date" className="form-label">
                 Joined Date
               </label>
@@ -157,13 +157,15 @@ export default function AddTrainer() {
               />
             </div>
 
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
+            <div className="text-center">
+              <button type="submit" className="btn btn-primary ">
+                Submit
+              </button>
 
-            <button type="reset" className="btn btn-outline-danger mx-2">
-              Cancel
-            </button>
+              <button type="reset" className="btn btn-outline-danger mx-2">
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
