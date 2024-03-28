@@ -9,6 +9,9 @@ import AddMember from "./members/AddMembers";
 import EditMember from "./members/UpdateMembers";
 import ViewMember from "./members/ViewMembers";
 import Home from "./pages/Home";
+import ViewExercises from "./exercises/viewExercises";
+import AddExercise from "./exercises/addExercise";
+import UpdateExercise from "./exercises/updateExercise";
 
 function App() {
   return (
@@ -23,6 +26,13 @@ function App() {
           <Route exact path="/addmember" element={<AddMember />} />
           <Route exact path="/editmember/:id" element={<EditMember />} />
           <Route exact path="/viewmember/:id" element={<ViewMember />} />
+          <Route exact path="/exercises" element={<ViewExercises />} />
+
+          <Route
+            exact
+            path="/exercises/update/:id"
+            element={<UpdateExercise />}
+          />
         </Routes>
       </Router>
     </div>
