@@ -22,6 +22,7 @@ function App() {
           <Route exact path="/addTrainer" element={<AddTrainer />} />
           <Route exact path="/addmember" element={<AddMember />} />
           <Route exact path="/editmember/:id" element={<EditMember />} />
+
           <Route exact path="/viewmember/:id" element={<ViewMember />} />
         </Routes>
       </Router>

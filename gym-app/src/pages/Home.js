@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [members, setMembers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-
-  const { id } = useParams();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     loadMembers();
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   const loadMembers = async () => {
@@ -21,11 +25,6 @@ export default function Home() {
     }));
     setMembers(formattedMembers);
     setSearchResults(formattedMembers);
-  };
-
-  const deleteMember = async (id) => {
-    await axios.delete(`http://localhost:8081/member-ms/members/${id}`);
-    loadMembers();
   };
 
   const formatDate = (dateString) => {
@@ -40,7 +39,6 @@ export default function Home() {
     const query = e.target.value;
     setSearchQuery(query);
     if (query) {
-      // Filter members based on search query
       const filteredMembers = members.filter((member) =>
         member.firstname.toLowerCase().includes(query.toLowerCase())
       );
@@ -53,19 +51,48 @@ export default function Home() {
   const handleSuggestionClick = (member) => {
     setSearchQuery(member.firstname);
     setSearchResults([member]);
+    setShowDropdown(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  const handleSearch = () => {
+    // Functionality for search button
+    const filteredMembers = members.filter((member) =>
+      member.firstname.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+    setSearchResults(filteredMembers);
+  };
+
+  const deleteMember = async (id) => {
+    // Functionality for deleting a member
+    await axios.delete(`http://localhost:8081/member-ms/members/${id}`);
+    loadMembers(); // Reload members after deletion
   };
 
   return (
-    <div className="container">
-      <div className="py-4">
-        <div className="search-container">
+    <div className="container mt-7">
+      <h2 className="text-center" style={{ margin: "5rem" }}>
+        Manage Members
+      </h2>
+      <div className="container-fluid d-flex justify-content-end align-items-center">
+        <Link to="/addmember" className="btn btn-success me-2">
+          + Add Member
+        </Link>
+        <div className="dropdown" ref={dropdownRef}>
           <input
-            type="text"
-            placeholder="Search by First Name"
+            className="form-control me-2 dropdown-toggle"
+            type="search"
+            placeholder="Search"
             value={searchQuery}
             onChange={handleSearchChange}
+            onClick={() => setShowDropdown(true)}
           />
-          {searchQuery && (
+          {showDropdown && searchQuery && (
             <div className="suggestions">
               {searchResults.map((member, index) => (
                 <div
@@ -79,7 +106,26 @@ export default function Home() {
             </div>
           )}
         </div>
-        <table className="table border shadow">
+        {/* Add spacer */}
+        <div style={{ width: "10px" }} />
+        <button
+          className="btn btn-outline-success"
+          type="button"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+        {/* Add reset button */}
+        <button
+          className="btn btn-outline-secondary ms-2"
+          type="button"
+          onClick={loadMembers}
+        >
+          Reset
+        </button>
+      </div>
+      <div className="py-4">
+        <table className="table table-dark border shadow">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -114,19 +160,19 @@ export default function Home() {
                 <td>{member.tname}</td>
                 <td>
                   <Link
-                    className="btn btn-outline-primary mx-2"
+                    className="btn btn-outline-light mx-3"
                     to={`/viewmember/${member.id}`}
                   >
                     View
                   </Link>
                   <Link
-                    className="btn btn-outline-primary mx-2"
+                    className="btn btn-outline-light mx-3"
                     to={`/editmember/${member.id}`}
                   >
                     Edit
                   </Link>
                   <button
-                    className="btn btn-danger mx-2"
+                    className="btn btn-light"
                     onClick={() => deleteMember(member.id)}
                   >
                     Delete
