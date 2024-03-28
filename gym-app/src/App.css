@@ -1,5 +1,4 @@
 .App {
-  text-align: center;
 }
 
 .App-logo {
@@ -35,4 +34,11 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  background-image: url(""); /* Replace 'path_to_your_image.jpg' with the actual path to your image */
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 5%;
 }
