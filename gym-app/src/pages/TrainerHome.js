@@ -1,32 +1,34 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function TrainerHome() {
-  const [users, setUsers] = useState([]);
+  const [trainers, setTrainers] = useState([]);
   const [input, setInput] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
+  const { id } = useParams();
+
   useEffect(() => {
-    loadUsers();
+    loadTrainers();
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
-  const loadUsers = async () => {
+  const loadTrainers = async () => {
     const result = await axios.get(
       "http://localhost:8080/gym-trainer/trainers"
     );
-    const formattedUsers = result.data.map((user) => ({
-      ...user,
-      joined_date: formatDate(user.joined_date),
+    const formattedTrainers = result.data.map((trainer) => ({
+      ...trainer,
+      joined_date: formatDate(trainer.joined_date),
     }));
-    setUsers(formattedUsers);
-    setSearchResults(formattedUsers); // Initially set search results to all users
+    setTrainers(formattedTrainers);
+    setSearchResults(formattedTrainers); // Initially set search results to all users
   };
 
   const formatDate = (dateString) => {
@@ -38,21 +40,26 @@ export default function TrainerHome() {
   };
 
   const handleSearch = () => {
-    const filteredUsers = users.filter((user) =>
-      user.first_name.toLowerCase().startsWith(input.toLowerCase())
+    const filteredTrainers = trainers.filter((trainer) =>
+      trainer.first_name.toLowerCase().startsWith(input.toLowerCase())
     );
-    setSearchResults(filteredUsers);
+    setSearchResults(filteredTrainers);
   };
 
   const handleReset = () => {
     setInput("");
-    setSearchResults(users);
+    setSearchResults(trainers);
   };
 
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setShowDropdown(false);
     }
+  };
+
+  const deleteTrainer = async (id) => {
+    await axios.delete(`http://localhost:8080/gym-trainer/trainers/${id}`);
+    loadTrainers();
   };
 
   return (
@@ -82,17 +89,17 @@ export default function TrainerHome() {
             className={`dropdown-menu ${showDropdown ? "show" : ""}`}
             aria-labelledby="dropdownMenuButton"
           >
-            {searchResults.map((user, index) => (
+            {searchResults.map((trainer, index) => (
               <button
                 key={index}
                 className="dropdown-item"
                 type="button"
                 onClick={() => {
-                  setInput(user.first_name);
+                  setInput(trainer.first_name);
                   setShowDropdown(false);
                 }}
               >
-                {user.first_name}
+                {trainer.first_name}
               </button>
             ))}
           </div>
@@ -135,20 +142,30 @@ export default function TrainerHome() {
             </tr>
           </thead>
           <tbody>
-            {searchResults.map((user, index) => (
+            {searchResults.map((trainer, index) => (
               <tr key={index}>
-                <td>{user.id}</td>
-                <td>{user.first_name}</td>
-                <td>{user.last_name}</td>
-                <td>{user.gender}</td>
-                <td>{user.address}</td>
-                <td>{user.mobile}</td>
-                <td>{user.email}</td>
-                <td>{user.joined_date}</td>
+                <td>{trainer.id}</td>
+                <td>{trainer.first_name}</td>
+                <td>{trainer.last_name}</td>
+                <td>{trainer.gender}</td>
+                <td>{trainer.address}</td>
+                <td>{trainer.mobile}</td>
+                <td>{trainer.email}</td>
+                <td>{trainer.joined_date}</td>
                 <td>
                   <button className="btn btn-outline-light">View</button>
-                  <button className="btn btn-outline-light mx-2">Edit</button>
-                  <button className="btn btn-light">Delete</button>
+                  <Link
+                    className="btn btn-outline-light mx-2"
+                    to={`/edittrainer/${trainer.id}`}
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className="btn btn-light"
+                    onClick={() => deleteTrainer(trainer.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
