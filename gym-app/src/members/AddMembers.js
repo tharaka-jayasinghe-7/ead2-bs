@@ -227,19 +227,6 @@ export default function AddMember() {
 
             <div>
               <div className="mb-3">
-                <label htmlFor="Trainer ID" className="form-label">
-                  Trainer ID
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Enter Trainer ID"
-                  name="tid"
-                  value={tid}
-                  onChange={(e) => onInputChange(e)}
-                />
-              </div>
-              <div className="mb-3">
                 <label htmlFor="Trainer Name" className="form-label">
                   Trainer Name
                 </label>
@@ -249,10 +236,12 @@ export default function AddMember() {
                   value={tname}
                   onChange={(e) => onInputChange(e)}
                 >
-                  <option value="">Select Trainer Name</option>
                   {trainerNames.map((trainer) => (
-                    <option key={trainer.id} value={trainer.first_name}>
-                      {trainer.first_name}
+                    <option
+                      key={trainer.id}
+                      value={trainer.first_name + " " + trainer.last_name}
+                    >
+                      {trainer.first_name} {trainer.last_name}
                     </option>
                   ))}
                 </select>
