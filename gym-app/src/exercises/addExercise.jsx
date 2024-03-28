@@ -23,10 +23,12 @@ export default function AddExercise() {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-7">
       <div className="row">
         <div className="col-md-6 offset-md-3 border rounded p-4 mt-2 shadow">
-          <h2 className="text-justify m-4">Add Exercise</h2>
+          <h2 className="text-center" style={{ marginTop: "5rem" }}>
+            Add Exercises
+          </h2>
 
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="form-floating">
