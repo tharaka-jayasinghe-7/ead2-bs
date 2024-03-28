@@ -1,8 +1,36 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function AddMember() {
+  const [tid2, setTid] = useState("");
+  const [tname2, setTname] = useState("");
+  const [trainerNames, setTrainerNames] = useState([]);
+
+  useEffect(() => {
+    const fetchTrainerNames = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/gym-trainer/trainers"
+        );
+        setTrainerNames(response.data);
+      } catch (error) {
+        console.error("Error fetching trainer names:", error);
+      }
+    };
+
+    fetchTrainerNames();
+  }, []);
+
+  const onInputChange2 = (e) => {
+    const { name, value } = e.target;
+    if (name === "tid") {
+      setTid(value);
+    } else if (name === "tname") {
+      setTname(value);
+    }
+  };
+
   let navigate = useNavigate();
   const [members, setMembers] = useState({
     firstname: "",
@@ -196,19 +224,42 @@ export default function AddMember() {
                 onChange={(e) => onInputChange(e)}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="Trainer Name" className="form-label">
-                Trainer Name
-              </label>
-              <input
-                type={"text"}
-                className="form-control"
-                placeholder="Enter Trainer Name"
-                name="tname"
-                value={tname}
-                onChange={(e) => onInputChange(e)}
-              />
+
+
+            <div>
+              <div className="mb-3">
+                <label htmlFor="Trainer ID" className="form-label">
+                  Trainer ID
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Enter Trainer ID"
+                  name="tid"
+                  value={tid}
+                  onChange={(e) => onInputChange(e)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="Trainer Name" className="form-label">
+                  Trainer Name
+                </label>
+                <select
+                  className="form-select"
+                  name="tname"
+                  value={tname}
+                  onChange={(e) => onInputChange(e)}
+                >
+                  <option value="">Select Trainer Name</option>
+                  {trainerNames.map((trainer) => (
+                    <option key={trainer.id} value={trainer.first_name}>
+                      {trainer.first_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
+
             <button type="submit" className="btn btn-outline-primary">
               Submit
             </button>
