@@ -177,6 +177,12 @@ export default function Home() {
                   >
                     Delete
                   </button>
+                  <Link
+                    className="btn btn-outline-primary mx-2"
+                    to={`/createshedule/${member.id}`}
+                  >
+                    Create
+                  </Link>
                 </td>
               </tr>
             ))}
