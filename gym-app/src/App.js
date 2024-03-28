@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import ViewExercises from "./exercises/viewExercises";
 import AddExercise from "./exercises/addExercise";
 import UpdateExercise from "./exercises/updateExercise";
+import EditTrainer from "./trainer/EditTrainer";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Dashboard />} />
           <Route exact path="/trainers" element={<TrainerHome />} />
+          <Route exact path="/edittrainer/:id" element={<EditTrainer />} />
           <Route exact path="/members" element={<Home />} />
           <Route exact path="/addTrainer" element={<AddTrainer />} />
           <Route exact path="/addmember" element={<AddMember />} />
