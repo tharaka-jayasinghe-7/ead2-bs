@@ -225,6 +225,7 @@ export default function AddMember() {
               />
             </div>
 
+
             <div>
               <div className="mb-3">
                 <label htmlFor="Trainer Name" className="form-label">
