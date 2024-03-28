@@ -39,14 +39,17 @@ export default function EditMember() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.put(`http://localhost:8081/member-ms/members/${id}`, members);
-    navigate("/");
+    navigate("/members");
   };
 
   const loadMembers = async () => {
     const result = await axios.get(
       `http://localhost:8081/member-ms/members/${id}`
     );
-    setMembers(result.data);
+    const formattedJoinedDate = new Date(result.data.jdate)
+      .toISOString()
+      .split("T")[0];
+    setMembers({ ...result.data, jdate: formattedJoinedDate });
   };
   return (
     <div className="container">
@@ -194,8 +197,8 @@ export default function EditMember() {
             <button type="submit" className="btn btn-outline-primary">
               Submit
             </button>
-            <Link className="btn btn-outline-danger mx-2" to="/">
-              Cancle
+            <Link className="btn btn-outline-danger mx-2" to="/members">
+              Cancel
             </Link>
           </form>
         </div>

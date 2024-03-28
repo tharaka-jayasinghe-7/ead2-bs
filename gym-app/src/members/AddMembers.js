@@ -66,7 +66,7 @@ export default function AddMember() {
   const onSubmit = async (e) => {
     e.preventDefault();
     await axios.post("http://localhost:8081/member-ms/members", members);
-    navigate("/");
+    navigate("/members");
   };
   return (
     <div className="container">
@@ -211,20 +211,6 @@ export default function AddMember() {
                 onChange={(e) => onInputChange(e)}
               />
             </div>
-            <div className="mb-3">
-              <label htmlFor="Trainer ID" className="form-label">
-                Trainer ID
-              </label>
-              <input
-                type={"text"}
-                className="form-control"
-                placeholder="Enter Trainer ID"
-                name="tid"
-                value={tid}
-                onChange={(e) => onInputChange(e)}
-              />
-            </div>
-
 
             <div>
               <div className="mb-3">
@@ -252,8 +238,8 @@ export default function AddMember() {
             <button type="submit" className="btn btn-outline-primary">
               Submit
             </button>
-            <Link className="btn btn-outline-danger mx-2" to="/">
-              Cancle
+            <Link className="btn btn-outline-danger mx-2" to="/members">
+              Cancel
             </Link>
           </form>
         </div>

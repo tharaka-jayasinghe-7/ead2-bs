@@ -24,7 +24,10 @@ export default function ViewMember() {
     const result = await axios.get(
       `http://localhost:8081/member-ms/members/${id}`
     );
-    setMembers(result.data);
+    const formattedJoinedDate = new Date(result.data.jdate)
+      .toISOString()
+      .split("T")[0];
+    setMembers({ ...result.data, jdate: formattedJoinedDate });
   };
 
   return (
@@ -37,46 +40,37 @@ export default function ViewMember() {
             <div className="card-header">
               Details of user id :{members.id}
               <ul className="list-group list-group-flush">
-                <li className="list-group-itme">
-                  <b>Firstname:</b>
-                  {members.firstname}
+                <li className="list-group-item">
+                  <b>Firstname:</b> {members.firstname}
                 </li>
-                <li className="list-group-itme">
-                  <b>Lastname:</b>
-                  {members.lastname}
+                <li className="list-group-item">
+                  <b>Lastname:</b> {members.lastname}
                 </li>
-                <li className="list-group-itme">
-                  <b>NIC:</b>
-                  {members.nic}
+                <li className="list-group-item">
+                  <b>NIC:</b> {members.nic}
                 </li>
-                <li className="list-group-itme">
-                  <b>Gender:</b>
-                  {members.gender}
+                <li className="list-group-item">
+                  <b>Gender:</b> {members.gender}
                 </li>
-                <li className="list-group-itme">
-                  <b>Age:</b>
-                  {members.age}
+                <li className="list-group-item">
+                  <b>Age:</b> {members.age}
                 </li>
-                <li className="list-group-itme">
-                  <b>Address:</b>
-                  {members.address}
+                <li className="list-group-item">
+                  <b>Address:</b> {members.address}
                 </li>
-                <li className="list-group-itme">
-                  <b>Mobile:</b>
-                  {members.mobile}
+                <li className="list-group-item">
+                  <b>Mobile:</b> {members.mobile}
                 </li>
-                <li className="list-group-itme">
-                  <b>Email:</b>
-                  {members.email}
+                <li className="list-group-item">
+                  <b>Email:</b> {members.email}
                 </li>
-                <li className="list-group-itme">
-                  <b>Joined date:</b>
-                  {members.jdate}
+                <li className="list-group-item">
+                  <b>Joined date:</b> {members.jdate}
                 </li>
               </ul>
             </div>
           </div>
-          <Link className="btn btn-primary my-2" to={"/"}>
+          <Link className="btn btn-primary my-2" to={"/members"}>
             Back to Member
           </Link>
         </div>
