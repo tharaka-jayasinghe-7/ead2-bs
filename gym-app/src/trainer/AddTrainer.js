@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function AddTrainer() {
   let navigate = useNavigate();
 
-  const [user, setUser] = useState({
+  const [trainer, setTrainer] = useState({
     first_name: "",
     last_name: "",
     gender: "",
@@ -16,15 +16,15 @@ export default function AddTrainer() {
   });
 
   const { first_name, last_name, gender, address, mobile, email, joined_date } =
-    user;
+    trainer;
 
   const onInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    setTrainer({ ...trainer, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/gym-trainer/trainers", user);
+    await axios.post("http://localhost:8080/gym-trainer/trainers", trainer);
     navigate("/");
   };
 
