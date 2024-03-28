@@ -35,9 +35,10 @@ export default function ViewExercises() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch = (value) => {
+    setInput(value);
     const filteredExercises = exercises.filter((exercise) =>
-      exercise.name.toLowerCase().includes(input.toLowerCase())
+      exercise.name.toLowerCase().includes(value.toLowerCase())
     );
     setSearchResults(filteredExercises);
   };
@@ -63,30 +64,13 @@ export default function ViewExercises() {
             type="search"
             placeholder="Search"
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             aria-label="Search"
           />
         </div>
 
         {/* Add a spacer */}
         <div style={{ width: "10px" }} />
-
-        <button
-          className="btn btn-outline-success"
-          type="button"
-          onClick={handleSearch}
-        >
-          Search
-        </button>
-
-        {/* Add reset button */}
-        <button
-          className="btn btn-outline-secondary ms-2"
-          type="button"
-          onClick={handleReset}
-        >
-          Reset
-        </button>
       </div>
 
       <div className="py-4">
