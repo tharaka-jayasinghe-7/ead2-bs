@@ -1,27 +1,34 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function TrainerHome() {
   const [users, setUsers] = useState([]);
+  const [input, setInput] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     loadUsers();
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   const loadUsers = async () => {
     const result = await axios.get(
       "http://localhost:8080/gym-trainer/trainers"
     );
-    // Map over the data and format the date
     const formattedUsers = result.data.map((user) => ({
       ...user,
       joined_date: formatDate(user.joined_date),
     }));
     setUsers(formattedUsers);
+    setSearchResults(formattedUsers); // Initially set search results to all users
   };
 
-  // Function to format the date as yyyy-mm-dd
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -30,17 +37,90 @@ export default function TrainerHome() {
     return `${year}-${month}-${day}`;
   };
 
+  const handleSearch = () => {
+    const filteredUsers = users.filter((user) =>
+      user.first_name.toLowerCase().startsWith(input.toLowerCase())
+    );
+    setSearchResults(filteredUsers);
+  };
+
+  const handleReset = () => {
+    setInput("");
+    setSearchResults(users);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
   return (
     <div className="container mt-7 ">
       <h2 className="text-center" style={{ marginTop: "5rem" }}>
         Manage Trainers
       </h2>
-      <Link to="/addTrainer" className="btn btn-success">
-        + Add Trainer
-      </Link>
+      <div className="container-fluid d-flex justify-content-end align-items-center">
+        <Link to="/addTrainer" className="btn btn-success me-2">
+          + Add Trainer
+        </Link>
+
+        <div className="dropdown" ref={dropdownRef}>
+          <input
+            className="form-control me-2 dropdown-toggle"
+            type="search"
+            placeholder="Search"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            aria-label="Search"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          />
+
+          <div
+            className={`dropdown-menu ${showDropdown ? "show" : ""}`}
+            aria-labelledby="dropdownMenuButton"
+          >
+            {searchResults.map((user, index) => (
+              <button
+                key={index}
+                className="dropdown-item"
+                type="button"
+                onClick={() => {
+                  setInput(user.first_name);
+                  setShowDropdown(false);
+                }}
+              >
+                {user.first_name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Add a spacer */}
+        <div style={{ width: "10px" }} />
+
+        <button
+          className="btn btn-outline-success"
+          type="button"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+
+        {/* Add reset button */}
+        <button
+          className="btn btn-outline-secondary ms-2"
+          type="button"
+          onClick={handleReset}
+        >
+          Reset
+        </button>
+      </div>
 
       <div className="py-4">
-        <table className="table border shadow mt-1">
+        <table className="table table-dark border shadow mt-1">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -55,7 +135,7 @@ export default function TrainerHome() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {searchResults.map((user, index) => (
               <tr key={index}>
                 <td>{user.id}</td>
                 <td>{user.first_name}</td>
@@ -66,9 +146,9 @@ export default function TrainerHome() {
                 <td>{user.email}</td>
                 <td>{user.joined_date}</td>
                 <td>
-                  <button className="btn btn-primary">View</button>
-                  <button className="btn btn-outline-primary mx-2">Edit</button>
-                  <button className="btn btn-danger">Delete</button>
+                  <button className="btn btn-outline-light">View</button>
+                  <button className="btn btn-outline-light mx-2">Edit</button>
+                  <button className="btn btn-light">Delete</button>
                 </td>
               </tr>
             ))}
