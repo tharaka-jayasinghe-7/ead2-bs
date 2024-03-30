@@ -80,9 +80,17 @@ export default function ViewTrainer() {
               </ul>
             </div>
           </div>
-          <Link className="btn btn-primary my-2" to={"/trainers"}>
-            Back
-          </Link>
+          <div className="d-flex justify-content-between">
+            <Link
+              className="btn btn-success my-2"
+              to={"/trainers/viewTrainer/assignedMembers"}
+            >
+              Assigned Members
+            </Link>
+            <Link className="btn btn-primary my-2" to={"/trainers"}>
+              Back
+            </Link>
+          </div>
         </div>
       </div>
     </div>

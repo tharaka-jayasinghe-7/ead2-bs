@@ -15,6 +15,7 @@ import UpdateExercise from "./exercises/updateExercise";
 import EditTrainer from "./trainer/EditTrainer";
 import CreateSchedule from "./pages/CreateSchedule";
 import ViewTrainer from "./trainer/ViewTrainer";
+import AssignedMembers from "./trainer/AssignedMembers";
 
 function App() {
   return (
@@ -43,6 +44,11 @@ function App() {
             exact
             path="/exercises/update/:id"
             element={<UpdateExercise />}
+          />
+          <Route
+            exact
+            path="/trainers/viewTrainer/assignedMembers"
+            element={<AssignedMembers />}
           />
         </Routes>
       </Router>
