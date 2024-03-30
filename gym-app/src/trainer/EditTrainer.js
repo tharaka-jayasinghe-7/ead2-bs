@@ -36,7 +36,7 @@ export default function EditTrainer() {
       trainer
     );
 
-    navigate("/");
+    navigate("/trainers");
   };
 
   const loadTrainer = async () => {
@@ -77,9 +77,6 @@ export default function EditTrainer() {
                 name="first_name"
                 value={first_name}
                 onChange={(e) => onInputChange(e)}
-                pattern="[A-Za-z]+"
-                title="Please enter only letters"
-                required
               />
             </div>
 
@@ -94,9 +91,6 @@ export default function EditTrainer() {
                 name="last_name"
                 value={last_name}
                 onChange={(e) => onInputChange(e)}
-                pattern="[A-Za-z]+"
-                title="Please enter only letters"
-                required
               />
             </div>
 
@@ -115,7 +109,6 @@ export default function EditTrainer() {
                       value="male"
                       checked={gender === "male"}
                       onChange={(e) => onInputChange(e)}
-                      required
                     />
                     <label className="form-check-label" htmlFor="male">
                       Male
@@ -152,7 +145,6 @@ export default function EditTrainer() {
                 name="address"
                 value={address}
                 onChange={(e) => onInputChange(e)}
-                required
               />
             </div>
 
@@ -161,15 +153,12 @@ export default function EditTrainer() {
                 Mobile
               </label>
               <input
-                type="tel"
+                type="text"
                 className="form-control"
                 placeholder="Enter Mobile"
                 name="mobile"
                 value={mobile}
                 onChange={(e) => onInputChange(e)}
-                pattern="[0-9]{10}"
-                title="Please enter a valid 10-digit mobile number"
-                required
               />
             </div>
 
@@ -178,13 +167,12 @@ export default function EditTrainer() {
                 Email
               </label>
               <input
-                type="email"
+                type="text"
                 className="form-control"
                 placeholder="Enter Email"
                 name="email"
                 value={email}
                 onChange={(e) => onInputChange(e)}
-                required
               />
             </div>
 
@@ -193,27 +181,23 @@ export default function EditTrainer() {
                 Joined Date
               </label>
               <input
-                type="date"
+                type="text"
                 className="form-control"
                 placeholder="Enter Joined Date"
                 name="joined_date"
                 value={joined_date}
                 onChange={(e) => onInputChange(e)}
-                required
               />
             </div>
 
             <div className="text-center">
-              <Link type="submit" className="btn btn-primary " to={"/trainers"}>
+              <button type="submit" className="btn btn-primary ">
                 Submit
-              </Link>
-              <Link
-                type="reset"
-                className="btn btn-outline-danger mx-2"
-                to={"/trainers"}
-              >
+              </button>
+
+              <button type="reset" className="btn btn-outline-danger mx-2">
                 Cancel
-              </Link>
+              </button>
             </div>
           </form>
         </div>
