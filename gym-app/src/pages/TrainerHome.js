@@ -58,8 +58,13 @@ export default function TrainerHome() {
   };
 
   const deleteTrainer = async (id) => {
-    await axios.delete(`http://localhost:8080/gym-trainer/trainers/${id}`);
-    loadTrainers();
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this trainer?"
+    );
+    if (confirmation) {
+      await axios.delete(`http://localhost:8080/gym-trainer/trainers/${id}`);
+      loadTrainers();
+    }
   };
 
   return (

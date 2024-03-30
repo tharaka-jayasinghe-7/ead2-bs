@@ -70,8 +70,13 @@ export default function Home() {
 
   const deleteMember = async (id) => {
     // Functionality for deleting a member
-    await axios.delete(`http://localhost:8081/member-ms/members/${id}`);
-    loadMembers(); // Reload members after deletion
+    const confirmation = window.confirm(
+      "Are you sure you want to delete this member?"
+    );
+    if (confirmation) {
+      await axios.delete(`http://localhost:8081/member-ms/members/${id}`);
+      loadMembers(); // Reload members after deletion
+    }
   };
 
   return (

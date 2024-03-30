@@ -46,7 +46,6 @@ function App() {
             element={<UpdateExercise />}
           />
           <Route
-            exact
             path="/trainers/viewTrainer/assignedMembers"
             element={<AssignedMembers />}
           />

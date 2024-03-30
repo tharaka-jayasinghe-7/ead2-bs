@@ -61,13 +61,91 @@ export default function AddMember() {
   } = members;
 
   const onInputChange = (e) => {
-    setMembers({ ...members, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    let newValue = value;
+
+    // Perform validation based on input name
+    switch (name) {
+      case "firstname":
+      case "lastname":
+        // Only allow alphabets and spaces
+        newValue = value.replace(/[^A-Za-z\s]/g, "");
+        break;
+      case "age":
+      case "mobile":
+        // Only allow numeric values
+        newValue = value.replace(/\D/g, "");
+        break;
+      case "jdate":
+        // Validate date format (YYYY-MM-DD)
+        newValue = value.replace(/[^0-9\-]/g, "");
+        break;
+      default:
+        // No specific validation for other fields
+        break;
+    }
+
+    setMembers({ ...members, [name]: newValue });
   };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8081/member-ms/members", members);
-    navigate("/members");
+
+    // Basic validation for required fields
+    if (
+      !firstname ||
+      !lastname ||
+      !age ||
+      !mobile ||
+      !email ||
+      !jdate ||
+      !gender
+    ) {
+      alert("Please fill out all required fields.");
+      return;
+    }
+
+    // Validation for gender selection
+    if (gender !== "male" && gender !== "female") {
+      alert("Please select a gender.");
+      return;
+    }
+
+    // Validation for age
+    if (isNaN(age) || age <= 0) {
+      alert("Please enter a valid age.");
+      return;
+    }
+
+    // Validation for mobile number
+    if (isNaN(mobile) || mobile.length !== 10) {
+      alert("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
+    // Validation for email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Validation for joined date format
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(jdate)) {
+      alert("Please enter the joined date in the format YYYY-MM-DD.");
+      return;
+    }
+
+    try {
+      await axios.post("http://localhost:8081/member-ms/members", members);
+      navigate("/members");
+    } catch (error) {
+      console.error("Error submitting member data:", error);
+      // Handle error appropriately, e.g., show an error message to the user
+    }
   };
+
   return (
     <div className="container">
       <div className="row">
@@ -205,7 +283,7 @@ export default function AddMember() {
               <input
                 type={"text"}
                 className="form-control"
-                placeholder="Enter Your Joined date"
+                placeholder="Enter Your Joined date (YYYY-MM-DD)"
                 name="jdate"
                 value={jdate}
                 onChange={(e) => onInputChange(e)}

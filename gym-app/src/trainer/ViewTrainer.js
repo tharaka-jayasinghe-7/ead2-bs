@@ -82,8 +82,9 @@ export default function ViewTrainer() {
           </div>
           <div className="d-flex justify-content-between">
             <Link
-              className="btn btn-success my-2"
+              className="btn btn-success my-1"
               to={"/trainers/viewTrainer/assignedMembers"}
+              state={{ trainerId: trainer.id }}
             >
               Assigned Members
             </Link>
