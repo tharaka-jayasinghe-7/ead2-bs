@@ -93,15 +93,19 @@ export default function Home() {
             onClick={() => setShowDropdown(true)}
           />
           {showDropdown && searchQuery && (
-            <div className="suggestions">
+            <div
+              className="dropdown-menu show"
+              aria-labelledby="dropdownMenuButton"
+            >
               {searchResults.map((member, index) => (
-                <div
+                <button
                   key={index}
-                  className="suggestion"
+                  className="dropdown-item"
+                  type="button"
                   onClick={() => handleSuggestionClick(member)}
                 >
                   {member.firstname}
-                </div>
+                </button>
               ))}
             </div>
           )}

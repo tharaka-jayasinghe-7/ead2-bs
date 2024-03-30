@@ -13,6 +13,8 @@ export default function ViewMember() {
     mobile: "",
     email: "",
     jdate: "",
+    tid: "", // Add tid for trainer ID
+    tname: "", // Add tname for trainer name
   });
 
   const { id } = useParams();
@@ -28,6 +30,25 @@ export default function ViewMember() {
       .toISOString()
       .split("T")[0];
     setMembers({ ...result.data, jdate: formattedJoinedDate });
+
+    // Fetch and set trainer name using the trainer ID
+    fetchTrainerName(result.data.tid);
+  };
+
+  const fetchTrainerName = async (trainerId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/gym-trainer/trainers/${trainerId}`
+      );
+      const trainerName =
+        response.data.first_name + " " + response.data.last_name;
+      setMembers((prevMembers) => ({
+        ...prevMembers,
+        tname: trainerName,
+      }));
+    } catch (error) {
+      console.error("Error fetching trainer name:", error);
+    }
   };
 
   return (
@@ -66,6 +87,9 @@ export default function ViewMember() {
                 </li>
                 <li className="list-group-item">
                   <b>Joined date:</b> {members.jdate}
+                </li>
+                <li className="list-group-item">
+                  <b>Trainer name:</b> {members.tname}
                 </li>
               </ul>
             </div>

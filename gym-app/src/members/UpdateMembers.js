@@ -15,7 +15,10 @@ export default function EditMember() {
     mobile: "",
     email: "",
     jdate: "",
+    tid: "", // Add tid for trainer ID
+    tname: "", // Add tname for trainer name
   });
+  const [trainerNames, setTrainerNames] = useState([]);
 
   const {
     firstname,
@@ -27,18 +30,29 @@ export default function EditMember() {
     mobile,
     email,
     jdate,
+    tid,
+    tname,
   } = members;
 
   const onInputChange = (e) => {
     setMembers({ ...members, [e.target.name]: e.target.value });
   };
+
   useEffect(() => {
     loadMembers();
+    fetchTrainerNames();
   }, []);
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`http://localhost:8081/member-ms/members/${id}`, members);
+    // Extract trainer ID and name from the selected option
+    const [selectedId, selectedName] = members.tid.split(",");
+    // Now you have both selectedId and selectedName
+    await axios.put(`http://localhost:8081/member-ms/members/${id}`, {
+      ...members,
+      tid: selectedId,
+      tname: selectedName ? selectedName.trim() : "", // Perform null check before calling trim()
+    });
     navigate("/members");
   };
 
@@ -51,6 +65,18 @@ export default function EditMember() {
       .split("T")[0];
     setMembers({ ...result.data, jdate: formattedJoinedDate });
   };
+
+  const fetchTrainerNames = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/gym-trainer/trainers"
+      );
+      setTrainerNames(response.data);
+    } catch (error) {
+      console.error("Error fetching trainer names:", error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -193,6 +219,26 @@ export default function EditMember() {
                 value={jdate}
                 onChange={(e) => onInputChange(e)}
               />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="TrainerName" className="form-label">
+                Trainer Name
+              </label>
+              <select
+                className="form-select"
+                name="tid"
+                value={tid}
+                onChange={(e) => onInputChange(e)}
+              >
+                {trainerNames.map((trainer) => (
+                  <option
+                    key={trainer.id}
+                    value={`${trainer.id},${trainer.first_name} ${trainer.last_name}`}
+                  >
+                    {trainer.first_name} {trainer.last_name}
+                  </option>
+                ))}
+              </select>
             </div>
             <button type="submit" className="btn btn-outline-primary">
               Submit
