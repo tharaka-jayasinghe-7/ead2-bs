@@ -14,6 +14,7 @@ import AddExercise from "./exercises/addExercise";
 import UpdateExercise from "./exercises/updateExercise";
 import EditTrainer from "./trainer/EditTrainer";
 import CreateSchedule from "./pages/CreateSchedule";
+import ViewTrainer from "./trainer/ViewTrainer";
 
 function App() {
   return (
@@ -24,11 +25,16 @@ function App() {
           <Route exact path="/" element={<Dashboard />} />
           <Route exact path="/trainers" element={<TrainerHome />} />
           <Route exact path="/edittrainer/:id" element={<EditTrainer />} />
-          <Route exact path="/members" element={<Home />} />
           <Route exact path="/addTrainer" element={<AddTrainer />} />
+          <Route exact path="/viewTrainer" element={<ViewTrainer />} />
+          <Route
+            exact
+            path="/trainers/viewTrainer/:id"
+            element={<ViewTrainer />}
+          />
+          <Route exact path="/members" element={<Home />} />
           <Route exact path="/addmember" element={<AddMember />} />
           <Route exact path="/editmember/:id" element={<EditMember />} />
-
           <Route exact path="/viewmember/:id" element={<ViewMember />} />
           <Route exact path="/exercises" element={<ViewExercises />} />
           <Route exact path="/exercises/add" element={<AddExercise />} />

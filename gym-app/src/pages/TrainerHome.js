@@ -153,7 +153,12 @@ export default function TrainerHome() {
                 <td>{trainer.email}</td>
                 <td>{trainer.joined_date}</td>
                 <td>
-                  <button className="btn btn-outline-light">View</button>
+                  <Link
+                    className="btn btn-outline-light"
+                    to={`/trainers/viewTrainer/${trainer.id}`}
+                  >
+                    View
+                  </Link>
                   <Link
                     className="btn btn-outline-light mx-2"
                     to={`/edittrainer/${trainer.id}`}

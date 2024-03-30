@@ -5,6 +5,13 @@ import { useNavigate } from "react-router-dom";
 export default function AddTrainer() {
   let navigate = useNavigate();
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const [trainer, setTrainer] = useState({
     first_name: "",
     last_name: "",
@@ -12,7 +19,7 @@ export default function AddTrainer() {
     address: "",
     mobile: "",
     email: "",
-    joined_date: "",
+    joined_date: formatDate(new Date()),
   });
 
   const { first_name, last_name, gender, address, mobile, email, joined_date } =
