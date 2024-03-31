@@ -159,19 +159,19 @@ export default function TrainerHome() {
                 <td>{trainer.joined_date}</td>
                 <td>
                   <Link
-                    className="btn btn-outline-light"
+                    className="btn btn-light"
                     to={`/trainers/viewTrainer/${trainer.id}`}
                   >
                     View
                   </Link>
                   <Link
-                    className="btn btn-outline-light mx-2"
+                    className="btn btn-light mx-2"
                     to={`/edittrainer/${trainer.id}`}
                   >
                     Edit
                   </Link>
                   <button
-                    className="btn btn-light"
+                    className="btn btn-outline-light"
                     onClick={() => deleteTrainer(trainer.id)}
                   >
                     Delete

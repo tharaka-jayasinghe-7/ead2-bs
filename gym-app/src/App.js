@@ -13,7 +13,6 @@ import ViewExercises from "./exercises/viewExercises";
 import AddExercise from "./exercises/addExercise";
 import UpdateExercise from "./exercises/updateExercise";
 import EditTrainer from "./trainer/EditTrainer";
-import CreateSchedule from "./pages/CreateSchedule";
 import ViewTrainer from "./trainer/ViewTrainer";
 import AssignedMembers from "./trainer/AssignedMembers";
 
@@ -39,7 +38,7 @@ function App() {
           <Route exact path="/viewmember/:id" element={<ViewMember />} />
           <Route exact path="/exercises" element={<ViewExercises />} />
           <Route exact path="/exercises/add" element={<AddExercise />} />
-          <Route exact path="/createshedule/:id" element={<CreateSchedule />} />
+          z
           <Route
             exact
             path="/exercises/update/:id"
